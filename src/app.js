@@ -2,6 +2,7 @@ import { h } from "./h"
 
 export function app(props, container) {
   var root = (container = container || document.body).children[0]
+  var doc = root.ownerDocument
   var node = toVNode(root, [].map)
   var callbacks = []
   var skipRender
@@ -101,11 +102,11 @@ export function app(props, container) {
 
   function createElement(node, isSVG) {
     if (typeof node === "string") {
-      var element = document.createTextNode(node)
+      var element = doc.createTextNode(node)
     } else {
       var element = (isSVG = isSVG || node.type === "svg")
-        ? document.createElementNS("http://www.w3.org/2000/svg", node.type)
-        : document.createElement(node.type)
+        ? doc.createElementNS("http://www.w3.org/2000/svg", node.type)
+        : doc.createElement(node.type)
 
       if (node.props && node.props.oncreate) {
         callbacks.push(function() {
